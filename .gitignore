@@ -25,6 +25,7 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+.jpb
 
 ### NetBeans ###
 /nbproject/private/
@@ -39,3 +40,6 @@ out/
 ### Property files ###
 /src/**/*.properties
 /src/**/*.yaml
+
+### Log ###
+/logs/

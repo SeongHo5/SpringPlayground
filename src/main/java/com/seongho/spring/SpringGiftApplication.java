@@ -1,4 +1,4 @@
-package com.seongho.myvelog;
+package com.seongho.spring;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.boot.SpringApplication;
@@ -7,14 +7,14 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.util.TimeZone;
 
-import static com.seongho.myvelog.common.log.MyVelogLogger.logServerStart;
+import static com.seongho.spring.common.log.MyVelogLogger.logServerStart;
 
 @SpringBootApplication
 @EnableJpaAuditing
-public class MyVelogApplication {
+public class SpringGiftApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MyVelogApplication.class, args);
+        SpringApplication.run(SpringGiftApplication.class, args);
         logServerStart();
     }
 
