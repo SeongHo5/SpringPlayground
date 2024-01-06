@@ -44,7 +44,7 @@ class GiftCardControllerTest {
     }
 
     @TestFactory
-    @DisplayName("상품권 발급 테스트")
+    @DisplayName("상품권 발행 테스트")
     @Transactional
     Stream<DynamicTest> dynamicTestForIssueGiftCard() {
         return Stream.of(
