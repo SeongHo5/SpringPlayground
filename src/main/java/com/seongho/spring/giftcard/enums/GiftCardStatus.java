@@ -4,5 +4,5 @@ import lombok.Getter;
 
 @Getter
 public enum GiftCardStatus {
-    UNSUED, USED, EXPIRED
+    UNSUED, IN_USE, USED, EXPIRED, DISPOSED
 }

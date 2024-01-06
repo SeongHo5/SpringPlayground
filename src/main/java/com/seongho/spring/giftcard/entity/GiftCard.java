@@ -2,8 +2,10 @@ package com.seongho.spring.giftcard.entity;
 
 import com.seongho.spring.common.entity.BaseEntity;
 import com.seongho.spring.giftcard.enums.GiftCardStatus;
+import com.seongho.spring.giftcard.event.GiftCardChangeEventListener;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -16,6 +18,8 @@ import java.time.LocalDateTime;
 @Table(name = "gift_card", uniqueConstraints = {
         @UniqueConstraint(name = "uk_gift_card_code", columnNames = {"code"})
 })
+@EntityListeners(GiftCardChangeEventListener.class)
+@SQLDelete(sql = "UPDATE gift_card SET status = 'DELETED' WHERE id = ?")
 public class GiftCard extends BaseEntity {
 
     @Id
@@ -28,9 +32,8 @@ public class GiftCard extends BaseEntity {
     @Column(precision = 10, nullable = false)
     private BigDecimal value;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "account_id")
-//    private Account account;
+    @Column(precision = 10)
+    private BigDecimal usedValue;
 
     @Enumerated(EnumType.STRING)
     private GiftCardStatus status;
@@ -43,5 +46,6 @@ public class GiftCard extends BaseEntity {
         this.status = status;
         this.usedAt = LocalDateTime.now();
     }
+
 
 }
