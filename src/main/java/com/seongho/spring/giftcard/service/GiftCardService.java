@@ -1,6 +1,7 @@
 package com.seongho.spring.giftcard.service;
 
 import com.seongho.spring.common.exception.NotFoundException;
+import com.seongho.spring.common.exception.ValidationException;
 import com.seongho.spring.giftcard.repository.GiftCardRepository;
 import com.seongho.spring.giftcard.entity.GiftCard;
 import lombok.RequiredArgsConstructor;
@@ -10,10 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import static com.seongho.spring.common.exception.enums.ExceptionStatus.NOT_FOUND_GIFT_CARD;
+import static com.seongho.spring.common.exception.enums.ExceptionStatus.*;
 import static com.seongho.spring.common.utils.CodeGenerator.generateRandomCode;
-import static com.seongho.spring.giftcard.enums.GiftCardStatus.UNSUED;
-import static com.seongho.spring.giftcard.enums.GiftCardStatus.USED;
+import static com.seongho.spring.giftcard.enums.GiftCardStatus.*;
 
 @Service
 @RequiredArgsConstructor
@@ -23,8 +23,12 @@ public class GiftCardService {
     private final GiftCardRepository giftCardRepository;
 
     public static final int GIFT_CARD_CODE_LENGTH = 18;
+    public static final int GIFT_CARD_MINIMUM_VALUE = 10000; // 10,000원
+    public static final int GIFT_CARD_MAXIMUM_VALUE = 10000000; // 10,000,000원(천만원)
 
     public void issueGiftCard(int value) {
+        validateGiftCardValue(value);
+
         GiftCard giftCard = GiftCard.builder()
                 .code(createUniqueCode())
                 .value(BigDecimal.valueOf(value))
@@ -37,6 +41,10 @@ public class GiftCardService {
     public void useGiftCard(String code) {
         GiftCard giftCard = giftCardRepository.findByCode(code)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_GIFT_CARD));
+
+        checkIfGiftCardIsExpired(giftCard);
+        checkIfGiftCardIsUsed(giftCard);
+
         giftCard.modifyStatus(USED);
     }
 
@@ -47,6 +55,13 @@ public class GiftCardService {
     }
 
     // ========== PRIVATE METHODS ========== //
+
+
+    private void validateGiftCardValue(int value) {
+        if (value < GIFT_CARD_MINIMUM_VALUE || value > GIFT_CARD_MAXIMUM_VALUE) {
+            throw new ValidationException(INVALID_INPUT_VALUE);
+        }
+    }
 
     private String createUniqueCode() {
         String code;
@@ -63,6 +78,20 @@ public class GiftCardService {
         sb.insert(9, '-');
         sb.insert(14, '-');
         return sb.toString();
+    }
+
+    private void checkIfGiftCardIsUsed(GiftCard giftCard) {
+        if (giftCard.getStatus().equals(USED)) {
+            throw new ValidationException(GIFT_CARD_ALREADY_USED);
+        }
+    }
+
+    private void checkIfGiftCardIsExpired(GiftCard giftCard) {
+        boolean isExpired = giftCard.getExpiredAt().isBefore(LocalDateTime.now())
+                && giftCard.getStatus().equals(EXPIRED);
+        if (isExpired) {
+            throw new ValidationException(GIFT_CARD_EXPIRED);
+        }
     }
 
 }
