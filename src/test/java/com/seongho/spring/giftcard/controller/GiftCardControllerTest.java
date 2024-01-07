@@ -47,7 +47,7 @@ class GiftCardControllerTest {
     private JwtResponseDto jwtResponseDto;
 
     @BeforeEach
-    void setUp() {
+    void initJwtToken() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof AccountDetails accountDetails) {
             jwtResponseDto = jwtProvider.createJwtToken(accountDetails.getUsername());
@@ -78,16 +78,16 @@ class GiftCardControllerTest {
     @Transactional
     Stream<DynamicTest> dynamicTestForIssueGiftCard() {
         return Stream.of(
-                testApiEndpoint("상품권 발행 성공", issueGiftCard("10000"), status().isOk()),
-                testApiEndpoint("상품권 발행 실패 - 최소 금액 미만", issueGiftCard("9999"), status().isBadRequest()),
-                testApiEndpoint("상품권 발행 실패 - 최대 금액 초과", issueGiftCard("10000001"), status().isBadRequest())
+                testApiEndpoint("상품권 발행 성공", issueGiftCard(10000), status().isOk()),
+                testApiEndpoint("상품권 발행 실패 - 최소 금액 미만", issueGiftCard(9999), status().isBadRequest()),
+                testApiEndpoint("상품권 발행 실패 - 최대 금액 초과", issueGiftCard(10000001), status().isBadRequest())
         );
     }
 
-    private RequestBuilder issueGiftCard(String value) {
+    private RequestBuilder issueGiftCard(int value) {
         return post("/api/gift-card/issue")
                 .header(AUTHORIZATION, "Bearer " + jwtResponseDto.accessToken())
-                .param("value", value);
+                .param("value", String.valueOf(value));
     }
 
     @TestFactory
