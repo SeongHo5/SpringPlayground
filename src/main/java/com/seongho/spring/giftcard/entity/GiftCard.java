@@ -2,7 +2,7 @@ package com.seongho.spring.giftcard.entity;
 
 import com.seongho.spring.common.entity.BaseEntity;
 import com.seongho.spring.giftcard.enums.GiftCardStatus;
-import com.seongho.spring.giftcard.event.GiftCardChangeEventListener;
+import com.seongho.spring.giftcard.entity.listener.GiftCardChangeListener;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Table(name = "gift_card", uniqueConstraints = {
         @UniqueConstraint(name = "uk_gift_card_code", columnNames = {"code"})
 })
-@EntityListeners(GiftCardChangeEventListener.class)
+@EntityListeners(GiftCardChangeListener.class)
 @SQLDelete(sql = "UPDATE gift_card SET status = 'DISPOSED' WHERE id = ?")
 public class GiftCard extends BaseEntity {
 

@@ -1,6 +1,5 @@
-package com.seongho.spring.giftcard.event;
+package com.seongho.spring.giftcard.entity.listener;
 
-import com.seongho.spring.common.utils.BeansUtil;
 import com.seongho.spring.giftcard.entity.GiftCard;
 import com.seongho.spring.giftcard.entity.GiftCardHistory;
 import com.seongho.spring.giftcard.repository.GiftCardHistoryRepository;
@@ -16,7 +15,7 @@ import static com.seongho.spring.common.utils.BeansUtil.getBean;
 @Slf4j
 @Component
 @NoArgsConstructor
-public class GiftCardChangeEventListener {
+public class GiftCardChangeListener {
 
     @PostPersist
     public void onGiftCardCreated(GiftCard giftCard) {
