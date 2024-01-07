@@ -1,20 +1,30 @@
 package com.seongho.spring.giftcard.controller;
 
+import com.seongho.spring.account.dto.AccountDetails;
+import com.seongho.spring.account.entity.Account;
+import com.seongho.spring.common.jwt.JwtProvider;
+import com.seongho.spring.common.jwt.dto.JwtResponseDto;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DynamicTest;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.stream.Stream;
 
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -22,10 +32,27 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Rollback
 @SpringBootTest
 @AutoConfigureMockMvc
+@WithUserDetails(value = "admin@admin.com", userDetailsServiceBeanName = "accountDetailsServiceImpl")
 class GiftCardControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    WebApplicationContext context;
+
+    @Autowired
+    JwtProvider jwtProvider;
+
+    private JwtResponseDto jwtResponseDto;
+
+    @BeforeEach
+    void setUp() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof AccountDetails accountDetails) {
+            jwtResponseDto = jwtProvider.createJwtToken(accountDetails.getUsername());
+        }
+    }
 
     @TestFactory
     @DisplayName("상품권 사용 테스트")
@@ -40,7 +67,10 @@ class GiftCardControllerTest {
     }
 
     private RequestBuilder useGiftCard(String code) {
-        return post("/api/gift-card/use").param("code", code);
+        return post("/api/gift-card/use")
+                .header(AUTHORIZATION, "Bearer " + jwtResponseDto.accessToken())
+                .param("code", code);
+
     }
 
     @TestFactory
@@ -48,14 +78,16 @@ class GiftCardControllerTest {
     @Transactional
     Stream<DynamicTest> dynamicTestForIssueGiftCard() {
         return Stream.of(
-                testApiEndpoint("상품권 발급 성공", issueGiftCard("10000"), status().isOk()),
-                testApiEndpoint("상품권 발급 실패 - 최소 금액 미만", issueGiftCard("9999"), status().isBadRequest()),
-                testApiEndpoint("상품권 발급 실패 - 최대 금액 초과", issueGiftCard("10000001"), status().isBadRequest())
+                testApiEndpoint("상품권 발행 성공", issueGiftCard("10000"), status().isOk()),
+                testApiEndpoint("상품권 발행 실패 - 최소 금액 미만", issueGiftCard("9999"), status().isBadRequest()),
+                testApiEndpoint("상품권 발행 실패 - 최대 금액 초과", issueGiftCard("10000001"), status().isBadRequest())
         );
     }
 
     private RequestBuilder issueGiftCard(String value) {
-        return post("/api/gift-card/issue").param("value", value);
+        return post("/api/gift-card/issue")
+                .header(AUTHORIZATION, "Bearer " + jwtResponseDto.accessToken())
+                .param("value", value);
     }
 
     @TestFactory
@@ -69,7 +101,9 @@ class GiftCardControllerTest {
     }
 
     private RequestBuilder disposeGiftCard(String code) {
-        return delete("/api/gift-card/dispose").param("code", code);
+        return delete("/api/gift-card/dispose")
+                .header(AUTHORIZATION, "Bearer " + jwtResponseDto.accessToken())
+                .param("code", code);
     }
 
     /**
