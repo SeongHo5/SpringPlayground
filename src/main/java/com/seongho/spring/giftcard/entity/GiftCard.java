@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
         @UniqueConstraint(name = "uk_gift_card_code", columnNames = {"code"})
 })
 @EntityListeners(GiftCardChangeEventListener.class)
-@SQLDelete(sql = "UPDATE gift_card SET status = 'DELETED' WHERE id = ?")
+@SQLDelete(sql = "UPDATE gift_card SET status = 'DISPOSED' WHERE id = ?")
 public class GiftCard extends BaseEntity {
 
     @Id
