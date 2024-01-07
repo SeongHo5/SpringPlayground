@@ -14,8 +14,8 @@ public class GiftCardController {
     private final GiftCardService giftCardService;
 
     @PostMapping("/issue")
-    public void issueGiftCard(final @RequestParam("value") String value) {
-        giftCardService.issueGiftCard(Integer.parseInt(value));
+    public void issueGiftCard(final @RequestParam("value") int value) {
+        giftCardService.issueGiftCard(value);
     }
 
     @PostMapping("/use")
