@@ -7,14 +7,14 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.util.TimeZone;
 
-import static com.seongho.spring.common.log.MyVelogLogger.logServerStart;
+import static com.seongho.spring.common.log.PlaygroundLogger.logServerStart;
 
 @SpringBootApplication
 @EnableJpaAuditing
-public class SpringGiftApplication {
+public class SpringPlaygroundApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringGiftApplication.class, args);
+        SpringApplication.run(SpringPlaygroundApplication.class, args);
         logServerStart();
     }
 
