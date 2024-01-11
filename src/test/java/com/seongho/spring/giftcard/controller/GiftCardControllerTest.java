@@ -1,7 +1,7 @@
 package com.seongho.spring.giftcard.controller;
 
+import com.seongho.spring.helper.TestHelper;
 import com.seongho.spring.account.dto.AccountDetails;
-import com.seongho.spring.account.entity.Account;
 import com.seongho.spring.common.jwt.JwtProvider;
 import com.seongho.spring.common.jwt.dto.JwtResponseDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,12 +11,10 @@ import org.junit.jupiter.api.TestFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class GiftCardControllerTest {
 
     @Autowired
-    private MockMvc mockMvc;
+    private TestHelper testHelper;
 
     @Autowired
     WebApplicationContext context;
@@ -52,6 +50,10 @@ class GiftCardControllerTest {
         if (authentication != null && authentication.getPrincipal() instanceof AccountDetails accountDetails) {
             jwtResponseDto = jwtProvider.createJwtToken(accountDetails.getUsername());
         }
+    }
+
+    private DynamicTest testApiEndpoint(String testName, RequestBuilder requestBuilder, ResultMatcher expectedStatus) {
+        return testHelper.testApiEndpoint(testName, requestBuilder, expectedStatus);
     }
 
     @TestFactory
@@ -104,20 +106,6 @@ class GiftCardControllerTest {
         return delete("/api/gift-card/dispose")
                 .header(AUTHORIZATION, "Bearer " + jwtResponseDto.accessToken())
                 .param("code", code);
-    }
-
-    /**
-     * 지정된 API 엔드포인트에 대해 테스트를 수행하는 DynamicTest를 생성합니다.
-     *
-     * @param testName 테스트의 Display Name으로 사용될 이름
-     * @param requestBuilder API 엔드포인트에 보낼 요청, HTTP Method, URL, 매개변수 또는 본문이 포함되어야 합니다.
-     * @param expectedStatus API 엔드포인트의 응답으로 예상되는 HTTP 상태
-     * @return DynamicTest
-     */
-    private DynamicTest testApiEndpoint(String testName, RequestBuilder requestBuilder, ResultMatcher expectedStatus) {
-        return DynamicTest.dynamicTest(testName,
-                () -> mockMvc.perform(requestBuilder)
-                        .andExpect(expectedStatus));
     }
 
 }
