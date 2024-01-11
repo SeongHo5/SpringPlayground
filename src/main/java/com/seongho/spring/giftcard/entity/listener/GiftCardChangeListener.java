@@ -19,19 +19,22 @@ public class GiftCardChangeListener {
 
     @PostPersist
     public void onGiftCardCreated(GiftCard giftCard) {
-        saveHistory(giftCard, "상품권 발행");
+        String description = "상품권 발행됨 : " + giftCard.getCode();
+        saveHistory(giftCard, description);
         log.info("상품권 발행 이력 기록: {}", giftCard.getCode());
     }
 
     @PostUpdate
     public void onGiftCardUpdated(GiftCard giftCard) {
-        saveHistory(giftCard, "상품권 사용 및 수정");
+        String description = "상품권 사용 또는 수정됨 : " + giftCard.getCode();
+        saveHistory(giftCard, description);
         log.info("상품권 사용 및 수정 이력 기록: {}", giftCard.getCode());
     }
 
     @PostRemove
     public void onGiftCardRemoved(GiftCard giftCard) {
-        saveHistory(giftCard, "상품권 폐기");
+        String description = "상품권 폐기됨 : " + giftCard.getCode();
+        saveHistory(giftCard, description);
         log.info("상품권 폐기 이력 기록: {}", giftCard.getCode());
     }
 
@@ -39,7 +42,6 @@ public class GiftCardChangeListener {
         GiftCardHistoryRepository historyRepository = getBean(GiftCardHistoryRepository.class);
         GiftCardHistory history = GiftCardHistory.builder()
                 .giftCard(giftCard)
-                .status(giftCard.getStatus())
                 .description(description)
                 .build();
         historyRepository.save(history);

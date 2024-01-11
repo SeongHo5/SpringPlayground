@@ -2,6 +2,7 @@ package com.seongho.spring.giftcard.controller;
 
 import com.seongho.spring.giftcard.service.GiftCardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,8 +15,11 @@ public class GiftCardController {
     private final GiftCardService giftCardService;
 
     @PostMapping("/issue")
-    public void issueGiftCard(final @RequestParam("value") int value) {
-        giftCardService.issueGiftCard(value);
+    public ResponseEntity<String> issueGiftCard(
+            final @RequestParam("value") int value,
+            final @RequestParam("contract_id") Long contractId
+    ) {
+        return giftCardService.issueGiftCard(value, contractId);
     }
 
     @PostMapping("/use")

@@ -26,8 +26,5 @@ public class GiftCardHistory extends SecureBaseEntity {
     @JoinColumn(name = "gift_card_id")
     private GiftCard giftCard;
 
-    @Enumerated(EnumType.STRING)
-    private GiftCardStatus status;
-
     private String description;
 }

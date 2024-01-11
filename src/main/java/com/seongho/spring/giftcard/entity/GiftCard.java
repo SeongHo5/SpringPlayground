@@ -1,13 +1,15 @@
 package com.seongho.spring.giftcard.entity;
 
 import com.seongho.spring.common.entity.BaseEntity;
-import com.seongho.spring.giftcard.enums.GiftCardStatus;
+import com.seongho.spring.contract.entity.Contract;
 import com.seongho.spring.giftcard.entity.listener.GiftCardChangeListener;
+import com.seongho.spring.giftcard.enums.GiftCardStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -29,6 +31,10 @@ public class GiftCard extends BaseEntity {
     @Column(length = 21, nullable = false)
     private String code;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "contract_id", nullable = false)
+    private Contract contract;
+
     @Column(precision = 10, nullable = false)
     private BigDecimal value;
 
@@ -40,7 +46,8 @@ public class GiftCard extends BaseEntity {
 
     private LocalDateTime usedAt;
 
-    private LocalDateTime expiredAt;
+    private LocalDate validUntil;
+
 
     public void modifyStatus(GiftCardStatus status) {
         this.status = status;
