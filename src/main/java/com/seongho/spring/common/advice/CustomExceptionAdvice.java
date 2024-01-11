@@ -48,6 +48,12 @@ public class CustomExceptionAdvice {
         return createResponseEntity(HttpStatus.valueOf(ex.getStatusCode()), ex.getMessage());
     }
 
+    @ExceptionHandler({NoSuchServiceException.class})
+    protected ResponseEntity<ExceptionDto> noSuchServiceException(NoSuchServiceException ex) {
+        log.error("Unknown Service Request Error occurred: ", ex);
+        return createResponseEntity(HttpStatus.valueOf(ex.getStatusCode()), ex.getMessage());
+    }
+
     private ResponseEntity<ExceptionDto> createResponseEntity(HttpStatus status, String message) {
         return ResponseEntity
                 .status(status)

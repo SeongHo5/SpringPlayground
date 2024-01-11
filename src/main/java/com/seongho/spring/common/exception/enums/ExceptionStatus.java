@@ -10,6 +10,8 @@ public enum ExceptionStatus {
     // 400 - Bad Request : 잘못된 요청
     INVALID_INPUT_VALUE(400, "입력 값이 잘못되었습니다."),
     INVALID_TYPE_VALUE(400, "요청 타입이 잘못되었습니다."),
+    VALID_PERIOD_EXCEED_CONTRACT_DURATION(400, "상품권 유효 기간이 계약 기간보다 길 수 없습니다."),
+    NO_SUCH_COMMAND(400, "존재하지 않는 명령어입니다."),
 
     // 401 - Unauthorized : 비인증(인증 수단이 없음)
     NO_AUTHORIZATION(401, "인증 정보가 없습니다."),
@@ -28,6 +30,7 @@ public enum ExceptionStatus {
     NOT_FOUND_ACCOUNT(404, "존재하지 않는 계정입니다."),
     NOT_FOUND_GIFT_CARD(404, "존재하지 않는 기프트 카드입니다."),
     NOT_FOUND_REDIS_KEY(404, "존재하지 않는 REDIS KEY 입니다."),
+    NOT_FOUND_CONTRACT(404, "계약 정보를 찾을 수 없습니다."),
 
     // 405 - Method Not Allowed
     METHOD_NOT_ALLOWED(405, "허용되지 않는 HTTP 메서드입니다."),
@@ -54,7 +57,9 @@ public enum ExceptionStatus {
     // 500 - Internal Server Error
     FAIL_TO_SEND_EMAIL(500, "이메일 전송 실패"),
     FAILED_TO_UPLOAD_FILE(500, "파일 업로드 실패"),
-    FAILED_HTTP_ACTION(500, "HTTP 요청 실패");
+    EXTERNAL_API_ERROR(500, "외부 API 요청 오류"),
+    FAILED_HTTP_REQUEST(500, "HTTP 요청 실패"),
+    UNKNOWN_ERROR(500, "알 수 없는 오류가 발생하였습니다.");
 
     private final int statusCode;
     private final String message;

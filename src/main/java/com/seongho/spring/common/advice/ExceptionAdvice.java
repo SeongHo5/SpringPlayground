@@ -54,7 +54,7 @@ public class ExceptionAdvice {
      */
     @ExceptionHandler(MissingServletRequestParameterException.class)
     protected ResponseEntity<ExceptionDto> missingServletRequestParameterException(MissingServletRequestParameterException ex) {
-        String errorMessage = "Missing Parameter: " + ex.getParameterName();
+        String errorMessage = "Parameter [" + ex.getParameterName() + "] Is Required";
 
         log.error(errorMessage);
         return createResponseEntity(HttpStatus.BAD_REQUEST, errorMessage);
