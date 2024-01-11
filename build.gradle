@@ -15,6 +15,9 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+
+    all*.exclude group: 'commons-logging', module: 'commons-logging'
+    all*.exclude group: 'log4j', module: 'log4j'
 }
 
 repositories {
@@ -28,6 +31,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.1.0'
 
     // LOMBOK
     compileOnly 'org.projectlombok:lombok'
@@ -41,7 +45,7 @@ dependencies {
     // THYMELEAF
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
-    implementation('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect')
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 
     // MAIL
     implementation 'org.springframework.boot:spring-boot-starter-mail'
@@ -57,8 +61,8 @@ dependencies {
     // Test & JUnit5
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
-    testImplementation("org.junit.platform:junit-platform-launcher:1.5.2")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.5.2")
+    testImplementation 'org.junit.platform:junit-platform-launcher:1.5.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.5.2'
     testImplementation 'org.projectlombok:lombok'
     testImplementation 'org.assertj:assertj-core:3.19.0'
 }
