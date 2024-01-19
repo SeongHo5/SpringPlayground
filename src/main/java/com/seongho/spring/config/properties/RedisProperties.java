@@ -1,4 +1,4 @@
-package com.seongho.spring.common.config;
+package com.seongho.spring.config.properties;
 
 import lombok.Getter;
 import lombok.Setter;

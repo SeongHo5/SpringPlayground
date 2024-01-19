@@ -1,0 +1,106 @@
+.header-main {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background-color: #fff;
+    z-index: 100;
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+.header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    max-width: 950px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.header-inner p {
+    font-size: 20px;
+    font-weight: 700;
+    margin-right: 10px;
+    color: #212529;
+}
+
+.header-inner a {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.header-right .search-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-right: 10px;
+    font-size: 20px;
+    color: #212529;
+}
+
+.header-right .search-link:hover {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    transition: background 0.3s ease;
+}
+
+.header-right .login-btn {
+    background-color: #000;
+    color: #fff;
+    border-radius: 20px;
+}
+
+.header-right .login-btn:focus {
+    box-shadow: none;
+}
+
+/* Login Modal */
+.modal {
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+.modal-header {
+    border-bottom: none;
+}
+
+.modal-body .btn {
+    background-color: #12b886;
+    border-color: #12b886;
+}
+
+.modal-body .form-group {
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.modal-body .btn {
+    width: 100%;
+}
+
+.modal-body .form-control:focus {
+    border-color: #12b886;
+    box-shadow: 0 0 0 0 rgba(18, 184, 134, 0.25);
+}
+
+.modal-footer {
+    border-top: none;
+}
+
+.modal-footer p {
+    color: #12b886;
+}
+
+.modal-footer a {
+    color: #0f946c;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+}

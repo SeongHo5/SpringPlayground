@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout-default.html}">
+<head>
+    <title>MyVelog</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/styles/header.css}">
+        <link rel="stylesheet" th:href="@{/styles/landing.css}">
+    </th:block>
+    <style>
+        /* Velog 같은 느낌의 랜딩 페이지 */
+        .main {
+            margin: 0 auto;
+            max-width: 950px;
+            width: 100%;
+            padding: 100px 20px 0;
+            display: flex;
+            /*flex-direction: column;*/
+            align-items: center;
+            justify-content: center;
+            /*height: 100vh;*/
+        }
+
+        .main nav {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 12px;
+            padding-bottom: 12px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .nav-item {
+            margin-right: 10px;
+            margin-left: 10px;
+        }
+
+        .main nav .nav-left {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            /*width: 50%;*/
+            height: 100%;
+        }
+
+        .dropdown-toggle {
+            background-color: #f8f9fa;
+            color: #212529;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .dropdown-item {
+            color: #212529;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f8f9fa;
+            color: #007bff;
+        }
+
+    </style>
+</head>
+<body>
+<div layout:fragment="content" class="main">
+    <nav>
+        <div class="nav-left">
+            <div class="nav-item">
+                <i class="fas fa-arrow-up"></i>
+                <span>Trending</span>
+            </div>
+            <div class="nav-item">
+                <i class="far fa-clock"></i>
+                <span>Latest</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-rss"></i>
+                <span>Feed</span>
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    이번 주
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="#">오늘</a></li>
+                    <li><a class="dropdown-item" href="#">이번 주</a></li>
+                    <li><a class="dropdown-item" href="#">이번 달</a></li>
+                    <li><a class="dropdown-item" href="#">올 해</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+</body>
+</html>

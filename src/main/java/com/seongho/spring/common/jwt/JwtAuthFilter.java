@@ -19,7 +19,7 @@ import java.io.IOException;
 
 import static com.seongho.spring.common.constant.AuthConstant.BLACK_LIST_KEY_PREFIX;
 import static com.seongho.spring.common.exception.enums.ExceptionStatus.EXPIRED_TOKEN;
-import static com.seongho.spring.common.log.MyVelogLogger.logRequestInfo;
+import static com.seongho.spring.common.log.PlaygroundLogger.logRequestInfo;
 
 
 @Slf4j

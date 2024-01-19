@@ -1,5 +1,6 @@
-package com.seongho.spring.common.config;
+package com.seongho.spring.config;
 
+import com.seongho.spring.config.properties.RedisProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package com.seongho.spring.common.config;
+package com.seongho.spring.config;
 
 import com.seongho.spring.common.jwt.JwtAuthFilter;
 import com.seongho.spring.common.jwt.JwtProvider;
